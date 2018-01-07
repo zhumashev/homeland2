@@ -8,6 +8,7 @@ import { createContract } from '../../../reducers/mortgage';
 
 const conditions = [
   { condition: 'propertyValueOk', text: 'The property is worth at least XXX amount (Appraiser)' },
+  { condition: 'insuranceOfferOk', text: 'Insurance offer' },
   { condition: 'approve1', text: 'Seller is the rightful owner of the property' },
   { condition: 'approve2', text: 'The property is not bound to any debt' },
 ]

@@ -4,6 +4,7 @@ import { set } from 'lodash';
 const REQUEST_MORTGAGE = "REQUEST_MORTGAGE";
 const SET_CREDIT_RANK = "SET_CREDIT_RANK";
 const ADD_OFFER = "ADD_OFFER";
+const ADD_INSURANCE_OFFER = "ADD_INSURANCE_OFFER";
 const ACCEPT_OFFER = "ACCEPT_OFFER";
 const APPROVE_CONDITION = "APPROVE_CONDITION";
 const CHOOSE_APPRAISER = "CHOOSE_APPRAISER";
@@ -39,7 +40,13 @@ export const addOffer = (mortgageId, amount, bankId) => {
   return store.dispatch(action);
 }
 
-
+export const addInsuranceOffer = (mortgageId, offer, insuranceId) => {
+    const action = {
+        type: ADD_INSURANCE_OFFER,
+        data: {mortgageId, offer, insuranceId},
+    }
+    return store.dispatch(action);
+}
 
 export const acceptOffer = (mortgageId, bankId) => {
   const action = {
@@ -121,6 +128,9 @@ export default function runtime(state = initialState, action) {
     case ADD_OFFER:
       set(newState, [action.data.mortgageId, 'offers', `${action.data.bankId}`], {amount: action.data.amount});
       return newState;
+    case ADD_INSURANCE_OFFER:
+      set(newState, [action.data.mortgageId, 'insuranceoffers', `${action.data.insuranceId}`], {offer: action.data.offer});
+          return newState;
     case ACCEPT_OFFER:
       set(newState, [action.data.mortgageId, 'acceptedOffer'], {bankId: action.data.bankId});
       newState[action.data.mortgageId]['STATUS'] = 'waitingForApprovals';
@@ -135,6 +145,7 @@ export default function runtime(state = initialState, action) {
     case APPRAISER_EVALUATION:
       set(newState, [action.data.mortgageId, 'conditions', 'propertyValueOk'], true);
       set(newState, [action.data.mortgageId, 'appraiser', 'value'], action.data.value);
+      newState[action.data.mortgageId]['STATUS'] = 'waitingForInsurance';
       return newState;
     case CREATE_CONTRACT:
       set(newState, [action.data.mortgageId, 'STATUS'], 'inContract');

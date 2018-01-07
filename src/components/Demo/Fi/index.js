@@ -35,12 +35,12 @@ export default class Fi extends Component {
     let approvals = {...sGet('mortgage')};
 
     approvals = reduce(approvals, (result, row, key) => {
-      if(row.STATUS === 'waitingForApprovals') result[key] = row
+      if(row.STATUS === 'waitingForApprovals' || row.STATUS === 'waitingForInsurance') result[key] = row
       return result
     }, {})
 
 
-    if( !isEmpty(approvals) ) return (<div>
+    if( !isEmpty(approvals)) return (<div>
       {map(approvals, (v, k) =>
         <MortgageSmartContract key={k} requestId={k} />
       )}

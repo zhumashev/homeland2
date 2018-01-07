@@ -22,6 +22,7 @@ export default class AppraiserStep extends Component {
   }
   render() {
     const appraiserChosen = sGet(['mortgage', this.props.mortgageId, 'appraiser']);
+    const insu = sGet(['mortgage', this.props.mortgageId, 'insuranceoffers']);
 
     const evaluation = get(appraiserChosen, 'value') || false;
 
@@ -33,11 +34,22 @@ export default class AppraiserStep extends Component {
             <div className="mt-3 text-justify">Waiting for Appraiser's evaluation...</div> :
             <div>
               Evaluation is set at <strong>{evaluation}</strong>
+
             </div>
           }
+            {!insu ?
+                "" :
+                <div>
+                    You selected insurance offer:  <strong>{insu[1].offer}</strong>
+
+                </div>
+            }
         </div>
       )
     }
+
+
+
     return (
       <div>
         <strong>Choose an appraiser to estimate the value of the property</strong>
